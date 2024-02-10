@@ -1,0 +1,19 @@
+[routers-p22]
+mk-home ansible_host=172.16.1.1
+mk-remote.blizznet.at ansible_host=remote.blizznet.at
+[routers-p2200]
+mk-work ansible_host=10.2.0.1
+
+[routers-p22:vars]
+ansible_connection=ansible.netcommon.network_cli
+ansible_network_os=community.routeros.routeros
+ansible_user=netwpl
+ansible_ssh_pass=Iwan2807
+ansible_ssh_port=22
+
+[routers-p2200:vars]
+ansible_connection=ansible.netcommon.network_cli
+ansible_network_os=community.routeros.routeros
+ansible_user=netwpl
+ansible_ssh_pass=Iwan2807
+ansible_ssh_port=2200

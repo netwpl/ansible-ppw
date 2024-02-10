@@ -1,0 +1,35 @@
+---
+- name: RouterOS test with network_cli connection
+  hosts: "routers-*"
+  gather_facts: false
+  tasks:
+    - name: ressource_print
+      community.routeros.command:
+        commands:
+          - /system resource print
+      register: system_resource_print
+
+    - name: log_print
+      community.routeros.command:
+        commands:
+          - /log print proplist=message
+      register: log_message_print
+
+    - name: print_output_resource
+      ansible.builtin.debug:
+         var: system_resource_print.stdout_lines
+
+    - name: print_output_message
+      ansible.builtin.debug:
+         var: log_message_print.stdout_lines
+
+    - name: Retrieve facts
+      community.routeros.facts:
+    - ansible.builtin.debug:
+        msg: "First IP address: {{ ansible_net_all_ipv4_addresses[0] }}"
+
+    - name: copy output to file
+      copy:
+        content: "{{ system_resource_print.stdout[0] }}"
+        content: "{{ log_message_print.stdout[0] }}"
+        dest: "/config/output-{{ inventory_hostname }}.txt"
